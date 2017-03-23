@@ -17,7 +17,7 @@ class Customers extends MY_Controller{
 			$userid = $this->session->userdata('adminid');
 			$groupid = $this->session->userdata('admingroup');
 			$this->load->model('qrcodemodel');
-			$this->data['title']    = 'Dế Việt CRM - Quản lý khách hàng';
+			$this->data['title']    = ' Quản lý khách hàng';
 			$this->data['type'] = $this->input->get('type');
 			if(!$this->data['type']) $this->data['type'] = 'new';
 
@@ -110,9 +110,12 @@ class Customers extends MY_Controller{
             $birthday = $this->input->post("birthday");
             $date = DateTime::createFromFormat('d/m/Y', $birthday);
             $birthday = $date->format('Y-m-d');
+			$alias = $this->genAlias(time());
+			
             $data = array(
                 "firstname" 		=> $this->input->post("firstname"),
                 "lastname" 			=> $this->input->post("lastname"),
+                "alias" 			=> $alias,
                 "avatar" 	    	=> $avatar,
                 "phone" 			=> $this->input->post("phone"),
                 "id_card" 			=> $this->input->post("id_card"),
@@ -125,8 +128,8 @@ class Customers extends MY_Controller{
                 "birthday" 		    => strtotime($birthday),
                 "type" 		        => $this->input->post("type"),
 				"staff_create_id"	=> $this->session->userdata('adminid'),
-				"marital_status"	=> $this->session->userdata('adminid'),
-                "note" 				=> $this->session->userdata('note'),
+				"marital_status"	=> $this->input->post("marital_status"),
+                "note" 				=> $this->input->post("note"),
                 "createdate" 		=> time(),
             );
             $id = $this->customersmodel->create($data);
@@ -181,8 +184,8 @@ class Customers extends MY_Controller{
                 "birthday" 		    => strtotime($birthday),
                 "type" 		        => $this->input->post("type"),
 				"staff_create_id"	=> $this->session->userdata('adminid'),
-				"marital_status"	=> $this->session->userdata('adminid'),
-                "note" 				=> $this->session->userdata('note'),
+				"marital_status"	=> $this->input->post("marital_status"),
+                "note" 				=> $this->input->post("note"),
                 "createdate" 		=> time(),
             );
             $this->customersmodel->update($data,array('id'=>$id));
@@ -202,4 +205,10 @@ class Customers extends MY_Controller{
             exit();
         }
     }
+	
+	private function genAlias($number) {
+		$key = 'asialinktravel';
+		$string = $number.$key;
+		return md5($string);
+	}
 }

@@ -14,37 +14,42 @@
         <div class="row" style="margin-left: -15px">
             <!-- left column -->
 			<form role="form" method="POST" action="">
-				<div class="col-md-8 col-sm-6">
+				<div class="col-md-12 col-sm-12">
 					<!-- general form elements -->
+					<div>
+						<p><b>Tên khách hàng: </b><?=$customer->lastname.', '.$customer->firstname?><br>
+						<b>Email: </b><?=$customer->email?><br>
+						<b>Số điện thoại: </b><?=$customer->phone?></p>
+					</div>
 					<div class="box box-success box-solid">
 						<div class="box-header with-border">
 							<h3 class="box-title">Thêm mới đơn hàng</h3>
 						</div>
 						<div class="box-body">
                             <div class="form-group row-fluid">
-                                <label class="col-md-2">Ngày thực hiện:</label>
-                                <div class="col-md-5">
-									<div class="input-groups input-append date" id="implement_date">
-										<span class="add-on pull-right"><i data-time-icon="fa fa-clock-o" data-date-icon="fa fa-calendar"></i></span>
-										<input type="text" data-format="dd/MM/yyyy hh:mm:ss" class="form-control" name="implement_date" required=""/>
-									</div>
+                                <label class="col-md-2">Gán mã khách hàng</label>
+                                <div class="col-md-4">
+									<input type="text" class="form-control" name="code_pax" placeholder="EU7020">
+								</div>
+								<label class="col-md-2">Mã GEG (nếu có)</label>
+                                <div class="col-md-4">
+									<input type="text" class="form-control" name="geg_code" placeholder="V1050">
 								</div>
                             </div>
 							<div class="form-group row-fluid">
-                                <label class="col-md-2">Giảm giá đơn hàng:</label>
-                                <div class="col-md-3">
-									<input type="number" class="form-control" id="sale_number" name="sale_number"/>
-								</div>
-								<div class="col-md-2">
-									<select name="sale_type" class="form-control">
-										<option value="0">% đơn hàng</option>
-										<option value="1">ngàn đồng</option>
-									</select>
+                                <label class="col-md-2">Nguồn khách</label>
+                                <div class="col-md-10">
+									<input type="text" class="form-control" name="source" placeholder="khách gọi điện, giới thiệu, GEG,...">
 								</div>
                             </div>
                             <div class="form-group row-fluid">
-                                <label class="col-md-2">Ghi chú </label>
-                                <div class="col-md-10"><textarea class="form-control" name="note"/></textarea></div>
+                                <label class="col-md-2">Ghi chú</label>
+                                <div class="col-md-10">
+									<textarea class="form-control ckeditor" name="note"/>
+										<p>- Số khách dự kiến theo đoàn: </p>
+										<p>- Yêu cầu thêm</p>
+									</textarea>
+								</div>
                             </div>
                         </div>
 						<div class="box-footer">

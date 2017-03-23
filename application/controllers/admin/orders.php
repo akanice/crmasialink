@@ -13,7 +13,7 @@ class Orders extends MY_Controller{
 	}
     public function index(){
 		$this->load->model('usershistorymodel');
-        $this->data['title']    = 'Lọc nước CRM - Quản lý đơn hàng';
+        $this->data['title']    = 'Quản lý đơn hàng';
         $this->data['customer'] = $this->input->get('customer');
         $total = $this->ordersmodel->getTotalOrders($this->data['customer']);
         if($this->data['customer'] != ""){
@@ -41,35 +41,25 @@ class Orders extends MY_Controller{
         $this->load->view('admin/common/footer');
     }
 
-    public function add($customer_id) {
+    public function add($customer_alias) {
+		$this->data['customer'] = $this->customersmodel->read(array('alias'=>$customer_alias),array(),true);
 		if(isset($_POST['submit'])){
             $staff_create_id = $this->session->userdata('adminid');
             $create_date = time();
             $note = $_POST['note'];
-			// $sale_number = $this->input->post('sale_number');
-			// $sale_type = $this->input->post('sale_type');
-			// if ($sale_type == 0) {
-				// $sale_percent = $sale_number;
-				// $sale_amount = 0;
-			// } else {
-				// $sale_percent = 0;
-				// $sale_amount = $sale_number;
-			// }
-			
-			
+
             $data = array('customer_id' => $customer_id,
                           'staff_create_id' => $staff_create_id,
                           'create_date' => $create_date,
 						  'code_pax' 				=> $this->input->post('code_pax'),
-						  // 'geg_code' 				=> $this->input->post('code_pax'),
+						  'geg_code' 				=> $this->input->post('geg_code'),
 						  'contact_date' 			=> strtotime($this->input->post('contact_date')),
 						  'payment_status' 			=> $this->input->post('payment_status'),
 						  'tour_status' 			=> 'new',
 						  'delegation' 				=> $this->input->post('delegation'),
-						  'delegation' 				=> $this->input->post('delegation'),
-						  // 'extra_requirement' 		=> $this->input->post('extra_requirement'),
-						  // 'room_arrange' 			=> $this->input->post('room_arrange'),
-						  // 'ticket_code' 			=> $this->input->post('ticket_code'),
+						  'extra_requirement' 		=> $this->input->post('extra_requirement'),
+						  'room_arrange' 			=> $this->input->post('room_arrange'),
+						  'ticket_code' 			=> $this->input->post('ticket_code'),
                           'note' 					=> $note,
                          );
             $id_order = $this->ordersmodel->create($data);
@@ -365,7 +355,7 @@ class Orders extends MY_Controller{
 	
 	public function show($suffix='') {
 		$this->load->model('usershistorymodel');
-		$this->data['title']    = 'Lọc nước CRM - Quản lý đơn hàng';
+		$this->data['title']    = 'Quản lý đơn hàng';
 		$this->load->model('usersmodel');
 		$this->data['staff_techniques'] = $this->usersmodel->read(array('group_id' => 5));
 		$this->data['customer'] = $this->input->get('customer');

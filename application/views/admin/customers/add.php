@@ -34,7 +34,7 @@
 							<div class="form-group row-fluid">
 								<label class="col-md-2">Tình trạng hôn nhân</label>
 								<div class="col-md-6">
-									<select class="form-control" name="sex">
+									<select class="form-control" name="marital_status">
 										<option value="single">Độc thân</option>
 										<option value="married">Đã thành hôn</option>
 										<option value="divorced">Ly dị</option>
