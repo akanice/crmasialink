@@ -114,7 +114,7 @@
 							<li class="<?php if ($suffix_uri == '') echo 'active'?>"><a href="<?=base_url('admin/')?>">Thống kê sơ bộ</a></li>
 							<li class="<?php if ($suffix_uri == 'users') echo 'active'?>"><a href="<?=base_url('admin/users')?>">Quản lý nhân viên</a></li>
 							<li class="<?php if ($suffix_uri == 'usergroups') echo 'active'?>"><a href="<?=base_url('admin/usergroups')?>">Quản lý nhóm nhân viên</a></li>
-							<li class="<?php if ($suffix_uri == 'salary') echo 'active'?>"><a href="<?=base_url('admin/salary')?>">Quỹ lương</a></li>
+							<!--<li class="<?php if ($suffix_uri == 'salary') echo 'active'?>"><a href="<?=base_url('admin/salary')?>">Quỹ lương</a></li>-->
 							<li class="<?php if ($suffix_uri == 'products') echo 'active'?>"><a href="<?=base_url('admin/products')?>">Dữ liệu tour</a></li>
 						</ul>
 					</div>
