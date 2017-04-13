@@ -38,15 +38,15 @@
 							</div>
 							<div class="form-group">
 								<label class="col-md-2 control-label">Giá tour</label>
-								<div class="col-md-10"><input type="text" class="form-control" name="price" required=""/></div>
+								<div class="col-md-10"><input type="text" class="form-control" name="price" /></div>
 							</div>
 							<div class="form-group">
 								<label class="col-md-2 control-label">Color</label>
-								<div class="col-md-10"><input type="text" class="form-control" name="color" required=""/></div>
+								<div class="col-md-10"><input type="text" class="form-control" name="color" /></div>
 							</div>
 							<div class="form-group">
 								<label class="col-md-2 control-label">Số ngày</label>
-								<div class="col-md-2"><input type="text" class="form-control" name="duration" required=""/></div>
+								<div class="col-md-2"><input type="text" class="form-control" name="duration" /></div>
 								<div class="col-md-8"><span style="line-height:40px">ngày</span></div>
 							</div>
 							<div class="form-group">
@@ -58,8 +58,17 @@
 								<div class="col-md-10"><textarea class="ckeditor form-control" name="description"></textarea></div>
 							</div>
 							<div class="form-group">
-								<label class="col-md-2 control-label">Hiển thị</label>
+								<label class="col-md-2 control-label">Ảnh đại diện</label>
 								<div class="col-md-5"><input type="file" class="form-control" name="image"/></div>
+							</div>
+							<div class="form-group">
+								<label class="col-md-2 control-label">Hiển thị</label>
+								<div class="col-md-5">
+									<select name="display" class="form-control">
+										<option value="1" selected>Có</option>
+										<option value="0">Không</option>
+									</select>
+								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label"></label>

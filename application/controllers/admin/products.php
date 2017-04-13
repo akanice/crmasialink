@@ -84,63 +84,25 @@ class Products extends MY_Controller{
 		if (in_array($this->data['admingroup'],$this->data['groups_permission'])) {
 			$this->data['products'] = $products = $this->productsmodel->read(array('id'=>$id),array(),true);
 			if($this->input->post('submit') != null){
-				$uploaddir = 'assets/uploads/products/';
+				$uploaddir = 'assets/uploads/tours/';
 				$this->load->library("upload");
 				
-				//Upload cover image
-				if (move_uploaded_file($_FILES['images']['tmp_name'], $uploaddir . basename($_FILES['images']['name']))) {
-					$cover_image = $uploaddir . $_FILES['images']['name'];
-				} else {
-					$cover_image = $products->image;
+				if (move_uploaded_file($_FILES['image']['tmp_name'], $uploaddir . basename($_FILES['image']['name']))) {
+					$image = $uploaddir . $_FILES['image']['name'];
 				}
-				//Create cover thumb
-				if (move_uploaded_file($_FILES['images']['tmp_name'], $uploaddir . basename($_FILES['images']['name'])) || $cover_image == $uploaddir . $_FILES['images']['name']) {
-					$dir_thumb = 'assets/uploads/thumb/products/';
-					if (!file_exists($dir_thumb) || !is_dir($dir_thumb)) mkdir($dir_thumb,0777,true);
-					$this->load->library('image_lib');
-					$config2 = array();
-					$config2['image_library'] = 'gd2';
-					$config2['source_image'] = $cover_image;
-					$config2['new_image'] = $dir_thumb;
-					$config2['create_thumb'] = TRUE;
-					$config2['maintain_ratio'] = TRUE;
-					$config2['width'] = 300;
-					$config2['height'] = 300;
-					$this->image_lib->clear();
-					$this->image_lib->initialize($config2);
-					if(!$this->image_lib->resize()){
-						print $this->image_lib->display_errors();
-					}else{
-						$cover_image_thumb = $dir_thumb.basename($_FILES['images']['name'], '.' . pathinfo($_FILES['images']['name'], PATHINFO_EXTENSION)) . '_thumb.' . pathinfo($_FILES['images']['name'], PATHINFO_EXTENSION);
-					}
-				} else {
-					$cover_image_thumb = $products->thumb;
-				}
-				
-				$unit = $this->input->post("unit");
-				$longevity = $this->input->post("longevity");
-				switch ($unit) {
-					case 'months':
-						$longevity = $longevity * 30;
-						break;
-					case 'days':
-						$longevity = $longevity;
-						break;
-					case 'years':
-						$longevity = $longevity * 365;
-						break;
+				else{
+					$image = '';
 				}
 				
 				$data = array(
-					"name" 				=> $this->input->post("name"),
-					"alias" 			=> make_alias($this->input->post("name")),
-					"image" 	    	=> $cover_image,
-					"thumb" 			=> $cover_image_thumb,
-					"sku" 				=> $this->input->post("sku"),
-					"note" 				=> $this->input->post("note"),
-					"input_price" 		=> $this->input->post("input_price"),
-					"sell_price" 		=> $this->input->post("sell_price"),
-					"longevity" 		=> $longevity,
+					"name" 					=> $this->input->post("name"),
+					"alias" 				=> make_alias($this->input->post("name")),
+					"image" 	    		=> $image,
+					"price" 				=> $this->input->post("price"),
+					"color" 				=> $this->input->post("color"),
+					"itinerary" 			=> $this->input->post("itinerary"),
+					"duration" 				=> $this->input->post("duration"),
+					"display" 				=> $this->input->post("display"),
 				);
 				$this->productsmodel->update($data,array('id'=>$id));
 				redirect(base_url() . "admin/products");

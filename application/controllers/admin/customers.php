@@ -63,7 +63,7 @@ class Customers extends MY_Controller{
 			}else{
 				$this->data['list'] = $this->customersmodel->read(array('staff_create_id'=>$userid),array('id'=>false),false,$config['per_page'],$start);
 			}
-			$customer_id = $this->data['list'][0]->id;
+			//$customer_id = $this->data['list'][0]->id;
 			// $this->data['qr_code'] = $this->qrcodemodel->read(array('customer_id'=>$customer_id),array(),true);
 			$this->data['base'] = site_url('admin/customers/');
 			$this->load->view('admin/common/header',$this->data);
