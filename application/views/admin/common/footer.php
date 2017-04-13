@@ -1,8 +1,13 @@
-<div id="footer">
-    <div class="col-md-12">© Công ty AsiaLink Travel - deviet.vn 2017</div>
+		<footer class="footer">
+            <div class="container-fluid">
+                <nav class="pull-left">
+                    
+                </nav>
+                <p class="copyright pull-right">
+                    © 2017 <a href="http://akanice.com">akanice</a> - Made for asialinktravel.com
+                </p>
+            </div>
+        </footer>
+	</div>
 </div>
-<!-- END FOOTER -->
 </body>
-<!-- END BODY -->
-
-</html>

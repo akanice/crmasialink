@@ -9,11 +9,6 @@ class ProductsModel extends MY_Model {
             'nullable'  => true,
             'type'      => 'integer'
         ),
-		'id_device' =>  array(
-            'isIndex'   => true,
-            'nullable'  => true,
-            'type'      => 'string'
-        ),
         'name' => array(
             'isIndex'   => false,
             'nullable'  => false,
@@ -24,27 +19,27 @@ class ProductsModel extends MY_Model {
             'nullable'  => false,
             'type'      => 'string'
         ),
-        'sku' => array(
-            'isIndex'   => false,
-            'nullable'  => false,
-            'type'      => 'string'
-        ),
-        'input_price' => array(
+        'price' => array(
             'isIndex'   => false,
             'nullable'  => false,
             'type'      => 'integer'
         ),
-        'sell_price' => array(
-            'isIndex'   => false,
-            'nullable'  => false,
-            'type'      => 'integer'
-        ),
-        'note' => array(
+        'itinerary' => array(
             'isIndex'   => false,
             'nullable'  => false,
             'type'      => 'string'
         ),
-		'longevity' => array(
+		'color' => array(
+            'isIndex'   => false,
+            'nullable'  => false,
+            'type'      => 'string'
+        ),
+		'duration' => array(
+            'isIndex'   => false,
+            'nullable'  => false,
+            'type'      => 'integer'
+        ),
+		'description' => array(
             'isIndex'   => false,
             'nullable'  => false,
             'type'      => 'integer'
@@ -54,12 +49,7 @@ class ProductsModel extends MY_Model {
             'nullable'  => false,
             'type'      => 'string'
         ),
-		'thumb' => array(
-            'isIndex'   => false,
-            'nullable'  => true,
-            'type'      => 'string'
-        ),
-		'commission' => array(
+		'display' => array(
             'isIndex'   => false,
             'nullable'  => false,
             'type'      => 'integer'

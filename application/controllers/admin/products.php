@@ -9,10 +9,10 @@ class Products extends MY_Controller{
         $this->data['email_header'] = $this->session->userdata('adminemail');
 		$this->data['admingroup'] = $this->session->userdata('admingroup');
         $this->load->model('productsmodel');
-		$this->data['groups_permission'] = array(1,2,4,6);
+		$this->data['groups_permission'] = array(1,2,3,4,5,6);
 	}
     public function index(){
-        $this->data['title']    = 'Quản lý linh kiện';
+        $this->data['title']    = 'Quản lý tour';
 		$this->data['name'] = $this->input->get('name');
         $total = $this->productsmodel->getCountProducts($this->input->get('name'));
         if($this->data['name'] != ""){
@@ -45,70 +45,29 @@ class Products extends MY_Controller{
 
     public function add() {
 		if (in_array($this->data['admingroup'],$this->data['groups_permission'])) {
-			$this->load->model('warehousemodel');
-			$this->load->model('product_inwaremodel');
-			$warehouse = $this->data['warehouse'] = $this->warehousemodel->read();
 			if($this->input->post('submit') != null){
-				$uploaddir = 'assets/uploads/products/';
+				$uploaddir = 'assets/uploads/tours/';
 				$this->load->library("upload");
 
 				//Upload cover image
-				if (move_uploaded_file($_FILES['images']['tmp_name'], $uploaddir . basename($_FILES['images']['name']))) {
-					$cover_image = $uploaddir . $_FILES['images']['name'];
+				if (move_uploaded_file($_FILES['image']['tmp_name'], $uploaddir . basename($_FILES['image']['name']))) {
+					$image = $uploaddir . $_FILES['image']['name'];
 				}
 				else{
-					$cover_image = '';
-				}
-				//Create cover thumb
-				if ($cover_image != '') {
-					$dir_thumb = 'assets/uploads/thumb/products/';
-					if (!file_exists($dir_thumb) || !is_dir($dir_thumb)) mkdir($dir_thumb,0777,true);
-					$this->load->library('image_lib');
-					$config2 = array();
-					$config2['image_library'] = 'gd2';
-					$config2['source_image'] = $cover_image;
-					$config2['new_image'] = $dir_thumb;
-					$config2['create_thumb'] = TRUE;
-					$config2['maintain_ratio'] = TRUE;
-					$config2['width'] = 300;
-					$config2['height'] = 300;
-					$this->image_lib->clear();
-					$this->image_lib->initialize($config2);
-					if(!$this->image_lib->resize()){
-						print $this->image_lib->display_errors();
-					}else{
-						$cover_image_thumb = $dir_thumb.basename($_FILES['images']['name'], '.' . pathinfo($_FILES['images']['name'], PATHINFO_EXTENSION)) . '_thumb.' . pathinfo($_FILES['images']['name'], PATHINFO_EXTENSION);
-					}
-				} else {
-					$cover_image_thumb = 'assets/img/sample_thumb.png';
+					$image = '';
 				}
 				
-				$unit = $this->input->post("unit");
-				$longevity = $this->input->post("longevity");
-				switch ($unit) {
-					case 'months':
-						$longevity = $longevity * 30;
-						break;
-					case 'days':
-						$longevity = $longevity;
-						break;
-					case 'years':
-						$longevity = $longevity * 365;
-						break;
-				}
 				$data = array(
-					"name" 				=> $this->input->post("name"),
-					"alias" 			=> make_alias($this->input->post("name")),
-					"image" 	    	=> $cover_image,
-					"thumb" 			=> $cover_image_thumb,
-					"sku" 				=> $this->input->post("sku"),
-					"note" 				=> $this->input->post("note"),
-					"input_price" 		=> $this->input->post("input_price"),
-					"sell_price" 		=> $this->input->post("sell_price"),
-					"longevity" 		=> $longevity,
+					"name" 					=> $this->input->post("name"),
+					"alias" 				=> make_alias($this->input->post("name")),
+					"image" 	    		=> $image,
+					"price" 				=> $this->input->post("price"),
+					"color" 				=> $this->input->post("color"),
+					"itinerary" 			=> $this->input->post("itinerary"),
+					"duration" 				=> $this->input->post("duration"),
+					"display" 				=> $this->input->post("display"),
 				);
 				$product_id = $this->productsmodel->create($data);
-				
 				redirect(base_url() . "admin/products");
 				exit();
 			} else {

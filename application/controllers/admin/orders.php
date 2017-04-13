@@ -35,6 +35,7 @@ class Orders extends MY_Controller{
         $this->data['base'] = site_url('admin/orders/');
         $this->load->model('usersmodel');
         $this->data['list'] = $this->ordersmodel->getListOrders($this->data['customer'], $config['per_page'],$start);
+		$this->data['staff_care'] = $this->usersmodel->read(array('group_id' => array(2,3,4,5,6)));
 		
         $this->load->view('admin/common/header',$this->data);
         $this->load->view('admin/orders/list');
@@ -48,17 +49,18 @@ class Orders extends MY_Controller{
             $create_date = time();
             $note = $_POST['note'];
 
-            $data = array('customer_id' => $customer_id,
+            $data = array('customer_id' => $this->data['customer']->id,
                           'staff_create_id' => $staff_create_id,
                           'create_date' => $create_date,
 						  'code_pax' 				=> $this->input->post('code_pax'),
 						  'geg_code' 				=> $this->input->post('geg_code'),
 						  'contact_date' 			=> strtotime($this->input->post('contact_date')),
 						  'payment_status' 			=> $this->input->post('payment_status'),
+						  'deposit' 				=> $this->input->post('deposit'),
 						  'tour_status' 			=> 'new',
 						  'delegation' 				=> $this->input->post('delegation'),
 						  'extra_requirement' 		=> $this->input->post('extra_requirement'),
-						  'room_arrange' 			=> $this->input->post('room_arrange'),
+						  //'room_arrange' 			=> $this->input->post('room_arrange'),
 						  'ticket_code' 			=> $this->input->post('ticket_code'),
                           'note' 					=> $note,
                          );
@@ -105,87 +107,23 @@ class Orders extends MY_Controller{
     }
 
     public function edit($id) {
-        $this->data['id'] = $id;
-		$this->data['devices'] = $this->devicemodel->read();
         $this->data['order'] = $this->ordersmodel->read(array('id' => $id), array(), true);
-        $this->data['products'] = json_decode($this->data['order']->product_array);
-		if ($this->data['products']){
-			foreach ($this->data['products'] as $item) {
-				$row = $this->productsmodel->read(array('id'=>$item->pro_id),array(),true);
-				$item->name = $row->name;
-				$item->sku = $row->sku;
-				$item->sell_price = $row->sell_price;
-				$item->longevity = $row->longevity;
-				$data[] = $item; 
-			}
-			$this->data['products'] = $data;
-		}
-		
-		
-		$this->data['device_id'] = $this->input->post('device_id');
 		$customer_id = $this->data['order']->customer_id;
+		$this->data['customer'] = $this->customersmodel->read(array('id'=>$customer_id),array(),true);
 		
-		$submitForm = $this->input->post('submitForm');
-		if ($submitForm == 'submitDevice') {
-			$this->data['products'] = null;
-			$this->data['products'] = $this->productsmodel->getProductByDeviceId($this->data['device_id']);
-			$this->session->set_userdata('customer_device_id',$this->data['device_id']);
-		} elseif (($submitForm == 'submitAll')) {
-			$products = array();
-			$product_id = $this->input->post('product_id');
-			$id_device = $this->input->post('device_id'); 
-			// $data_post = $this->input->post();
-			// array_shift($data_post);
-			$i = 0;
-			$total = 0;
-			foreach ($product_id as $key=>$value) {
-				$price = $this->productsmodel->read(array('id'=>$key),array(),true)->sell_price;
-                $total += ($price * $value);
-				$products[] = array('pro_id'=>$key,'quantity'=>$value,'id'=>$i);
-				$i++;
-			}
-			$total = $total - $total*$this->data['order']->sale_percent/100 - $this->data['order']->sale_amount;
-			//update order
-            $data = array(
-				'product_array'	=> json_encode($products),
-				'total_price'	=> $total,
-				'id_device'		=> $this->session->userdata('customer_device_id'),
-			);
-			$this->ordersmodel->update($data, array('id' => $id));
-			//update device_id to customer data
-			$data2 = array(
-				'id_device' => $this->session->userdata('customer_device_id'),
-			);
-			$this->customersmodel->update($data2, array('id'=>$customer_id));
-			
-            $this->ordersmodel->update($data, array('id' => $id));
-            redirect(base_url() . "admin/orders");
-            exit();
-		} else {
-			
-		}
 		$this->load->view('admin/common/header',$this->data);
 		$this->load->view('admin/orders/edit');
 		$this->load->view('admin/common/footer');
     }
 	
 	public function view($id) {
+		$this->load->model('productsmodel');
 		$this->data['order'] = $order = $this->ordersmodel->read(array("id"=>$id),array(),true);
 		$this->data['customer'] = $this->customersmodel->read(array("id"=>$order->customer_id),array(),true);
-		$this->data['staff'] = $this->usersmodel->read(array("id"=>$order->staff_technique_id),array(),true);
+		$this->data['staff'] = $this->usersmodel->read(array("id"=>$order->staff_care_id),array(),true);
 		
-		$this->data['product_array'] = json_decode($order->product_array);
-		if ($this->data['product_array']){
-			foreach ($this->data['product_array'] as $item) {
-				$row = $this->productsmodel->read(array('id'=>$item->pro_id),array(),true);
-				$item->product_name = $row->name;
-				$item->sku = $row->sku;
-				$item->sell_price = $row->sell_price;
-				$item->longevity = $row->longevity;
-				$data[] = $item; 
-			}
-			$this->data['product_array'] = $data;
-		}
+		$this->data['product_result'] = $this->productsmodel->read(array("id"=>$order->tour_id),array(),true);
+
 		$this->load->view('admin/common/header',$this->data);
 		$this->load->view('admin/orders/view');
         $this->load->view('admin/common/footer');

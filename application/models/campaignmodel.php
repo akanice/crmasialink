@@ -61,4 +61,23 @@ class CampaignModel extends MY_Model {
         $this->checkTableDefine();
     }
 	
+	public function getCountCampaign($name) {
+        $this->db->select('*');
+        $this->db->from('campaign');
+        $this->db->like('campaign.name', $name);
+		$this->db->order_by("id","DESC");
+        return $this->db->count_all_results();
+        return false;
+    }
+	
+	public function getListcampaign($name,$limit,$offset) {
+        $this->db->select('campaign.*');
+        $this->db->like('campaign.name', $name);
+		$this->db->order_by("id","DESC");
+        if ($limit != "") {
+            $query = $this->db->get('campaign', $limit, $offset);
+        }
+        if ($query->num_rows > 0) return $query->result();
+        return false;
+    }
 }

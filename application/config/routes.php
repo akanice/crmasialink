@@ -39,13 +39,9 @@ $route['admin/salary/(:num)']            	=   'admin/salary/index/$1';
 $route['admin/products/(:num)']         	=   'admin/products/index/$1';
 $route['admin/userscart/(:num)']         	=   'admin/userscart/index/$1';
 $route['admin/usersgoods/(:num)']         	=   'admin/usersgoods/index/$1';
-$route['admin/device/(:num)']         		=   'admin/device/index/$1';
-$route['admin/devicecategory/(:num)']       =   'admin/devicecategory/index/$1';
-$route['admin/devicetag/(:num)']         	=   'admin/devicetag/index/$1';
+$route['admin/campaign/(:num)']         	=   'admin/campaign/index/$1';
 $route['admin/qrcode/(:num)']         		=   'admin/qrcode/index/$1';
-$route['admin/warehouse/(:num)']         	=   'admin/warehouse/index/$1';
 $route['admin/orders/(:num)']            	=   'admin/orders/index/$1';
-$route['admin/piw/(:num)']         			=   'admin/piw/index/$1';
 $route['admin/profile']         			=   'admin/users/profile';
 
 $route['khach-hang/(:any)'] 				=	'customer/maincustomer/index/$1'; 

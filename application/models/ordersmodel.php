@@ -44,6 +44,11 @@ class OrdersModel extends MY_Model {
             'nullable'  => false,
             'type'      => 'integer'
         ),
+		'product_id' => array(
+            'isIndex'   => false,
+            'nullable'  => false,
+            'type'      => 'string'
+        ),
 		'order_code' => array(
             'isIndex'   => false,
             'nullable'  => false,
@@ -83,6 +88,11 @@ class OrdersModel extends MY_Model {
             'isIndex'   => false,
             'nullable'  => false,
             'type'      => 'string'
+        ),
+		'deposit' => array(
+            'isIndex'   => false,
+            'nullable'  => false,
+            'type'      => 'integer'
         ),
 		'delegation' => array(
             'isIndex'   => false,
@@ -177,13 +187,17 @@ class OrdersModel extends MY_Model {
         $this->db->select('order.*,customers.email as customer_email,
 							customers.firstname as customer_first_name,
 							customers.lastname as customer_last_name,
+							customers.alias as customer_alias,
 						');
 		$this->db->select('users.email as user_email,
 							users.firstname as user_firstname,
 							users.lastname as user_lastname,
 						');
+		$this->db->select('products.name as tour_name,
+						');
         $this->db->join('customers', 'order.customer_id = customers.id', 'left');
         $this->db->join('users', 'order.staff_care_id = users.id', 'left');
+        $this->db->join('products', 'order.tour_id = products.id', 'left');
 		$this->db->order_by('order.create_date', 'DESC');
         if($customer){
             $this->db->like('customers.firstname', $customer);

@@ -50,8 +50,8 @@ class Users extends MY_Controller{
         $this->data['page_links'] = $this->pagination->create_links();
 
 		$this->data['list'] = $this->usersmodel->read(array(),array(),false,$config['per_page'],$start);
-		$this->data['group_sale'] 				= $this->usersmodel->read(array("group_id"=>[2,3,4]),array(),false);
-		$this->data['group_tech'] 				= $this->usersmodel->read(array("group_id"=>5),array(),false);
+		$this->data['group_sale'] 				= $this->usersmodel->read(array("group_id"=>[2,3,4,5,6]),array(),false);
+		//$this->data['group_tech'] 				= $this->usersmodel->read(array("group_id"=>5),array(),false);
 		
         $this->data['base'] = site_url('admin/users/');
         $this->load->view('admin/common/header',$this->data);
@@ -111,9 +111,7 @@ class Users extends MY_Controller{
 	
 	public function add() {
 		$this->load->model('usergroupmodel');
-		$this->load->model('warehousemodel');
 		$this->data['usergroups'] = $this->usergroupmodel->read();
-		$this->data['userwarehouse'] = $this->warehousemodel->read();
 		if($this->input->post('submit') != null){
 			$password = $this->input->post("password");
 			for($i = 0; $i < 50; $i++){
@@ -130,7 +128,6 @@ class Users extends MY_Controller{
                 "password" 				=> $password,
                 "user_code" 			=> $this->input->post("user_code"),
                 "group_id" 				=> $this->input->post("group_id"),
-                "id_warehouse" 			=> $this->input->post("id_warehouse"),
             );
             $this->usersmodel->create($data);
             redirect(base_url() . "admin/users");

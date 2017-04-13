@@ -76,11 +76,11 @@ class ajax extends MY_Controller{
         $result->ok = false;
         $result->msg = '';
 
-        $staff_technique_id = $this->input->post('staff_technique_id');
+        $staff_care_id = $this->input->post('staff_care_id');
         $order_id = $this->input->post('order_id');
         $note = $this->input->post('note');
 
-        if (!$staff_technique_id){
+        if (!$staff_care_id){
             $result->msg = 'Bạn chưa chọn nhân viên kĩ thuật!';
             echo json_encode($result);die();
         }
@@ -88,12 +88,12 @@ class ajax extends MY_Controller{
         $this->load->model('ordersmodel');
         $this->load->model('notificationmodel');
 		$data = array(
-			'staff_technique_id' => $staff_technique_id,
+			'staff_care_id' => $staff_care_id,
 			'note' => $note,
 		);
         $this->ordersmodel->update($data, array('id' => $order_id));
         $notifications = array('id_user_from' => $this->session->userdata('adminid'),
-                                  'id_user_to'  => $staff_technique_id,
+                                  'id_user_to'  => $staff_care_id,
                                   'status' => 'new',
                                   'content'  => 'gán đơn hàng cho bạn.',
                                   'order_id' => $order_id
@@ -112,7 +112,7 @@ class ajax extends MY_Controller{
 					'action' => 'assign',
 					'datetime' => $create_date,
 					'type' => '',
-					'id_user_to' => $staff_technique_id,
+					'id_user_to' => $staff_care_id,
 				);
 			if (!isset($history) || ($history == '') || ($history == null)) {
 				$this->usershistorymodel->create($data2);
@@ -122,7 +122,7 @@ class ajax extends MY_Controller{
 		}
 		
 		$this->load->model('usersmodel');
-		$staff_technique = $this->usersmodel->read(array('id'=>$staff_technique_id),array(),true);
+		$staff_technique = $this->usersmodel->read(array('id'=>$staff_care_id),array(),true);
         $result->ok = true;
 		$result->staff_firstname = $staff_technique->firstname;
 		$result->staff_lastname = $staff_technique->lastname;

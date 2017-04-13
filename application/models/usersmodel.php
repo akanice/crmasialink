@@ -54,11 +54,6 @@ class UsersModel extends MY_Model {
             'nullable'  => false,
             'type'      => 'string'
         ),
-		'id_warehouse' => array(
-            'isIndex'   => false,
-            'nullable'  => false,
-            'type'      => 'integer'
-        ),
         'group_id' => array(
             'isIndex'   => false,
             'nullable'  => false,

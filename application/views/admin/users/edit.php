@@ -1,59 +1,71 @@
-<aside class="right-side">
-    <section class="content-header">
-        <h1>
-            Quản lý nhân viên
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="<?=site_url('admin')?>"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
-            <li><a href="<?=site_url('admin/users')?>">Quản lý nhân viên</a></li>
-            <li class="active">Thêm mới nhân viên</li>
-        </ol>
-    </section>
-    <!-- Main content -->
-    <section class="content">
-        <div class="row-fluid">
+<div class="content">
+	<div class="container-fluid">
+		<div class="row">
             <div class="col-md-12">
-                <!-- BEGIN VALIDATION STATES-->
-                <div class="widget red">
-                    <div class="widget-title">
-                        <h4>Thông tin chi tiết nhân viên</h4>
-                    </div>
-                    <div class="widget-body">
-                        <table class="table table-striped table-bordered">
-                            <tr class="odd gradeX">
-                                <td width="20%">Email</td>
-                                <td><?=@$user->email?></td>
-                            </tr>
-                            <tr class="odd gradeX">
-                                <td width="20%">Tên</td>
-                                <td><?=@$user->lastname?> <?=@$user->firstname?></td>
-                            </tr>
-                            <tr class="odd gradeX">
-                                <td width="20%">Số điện thoại</td>
-                                <td><?=@$user->phone?></td>
-                            </tr>
-                            <tr class="odd gradeX">
-                                <td width="20%">Tỉnh/Thành Phố</td>
-                                <td><?=@$user->city?></td>
-                            </tr>
-                            <tr class="odd gradeX">
-                                <td width="20%">Địa chỉ</td>
-                                <td><?=@$user->address?></td>
-                            </tr>
-                            <tr class="odd gradeX">
-                                <td width="20%">Ngày đăng kí</td>
-                                <td><?=date("d/m/Y",@$user->create_time)?></td>
-                            </tr>
-							<tr class="odd gradeX">
-								<td></td>
-                                <td><button class="btn btn-success" data-toggle="modal" data-target="#ModalPopup">Cấp mới mật khẩu</button></td>
-							</tr>
-                        </table>
+				<div class="card">
+					<div class="content">
+						<h3 class="page-title">
+							Quản lý nhân viên
+						</h3>
+						<ul class="breadcrumb">
+							<li>
+								<a href="<?=base_url('admin')?>">Trang chủ</a>
+							</li>
+							<li>
+								<a href="<?=base_url('admin/users')?>">Quản lý nhân viên</a>
+							</li>
+							<li class="active">
+								Thêm mới nhân viên
+							</li>
+						</ul>
+						<!-- END PAGE TITLE & BREADCRUMB-->
+					</div>
+				</div>
+            </div>
+        </div>
+
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card">
+					<div class="header">
+						<h4 class="title">Thông tin chi tiết nhân viên</h4>
+					</div>
+					<div class="content">
+						<div class="widget-body">
+							<table class="table table-striped table-bordered">
+								<tr class="odd gradeX">
+									<td width="20%">Email</td>
+									<td><?=@$user->email?></td>
+								</tr>
+								<tr class="odd gradeX">
+									<td width="20%">Tên</td>
+									<td><?=@$user->lastname?> <?=@$user->firstname?></td>
+								</tr>
+								<tr class="odd gradeX">
+									<td width="20%">Số điện thoại</td>
+									<td><?=@$user->phone?></td>
+								</tr>
+								<tr class="odd gradeX">
+									<td width="20%">Tỉnh/Thành Phố</td>
+									<td><?=@$user->city?></td>
+								</tr>
+								<tr class="odd gradeX">
+									<td width="20%">Địa chỉ</td>
+									<td><?=@$user->address?></td>
+								</tr>
+								<tr class="odd gradeX">
+									<td width="20%">Ngày đăng kí</td>
+									<td><?=date("d/m/Y",@$user->create_time)?></td>
+								</tr>
+								<tr class="odd gradeX">
+									<td></td>
+									<td><button class="btn btn-success btn-fill btn-wd" data-toggle="modal" data-target="#ModalPopup">Cấp mới mật khẩu</button></td>
+								</tr>
+							</table>
+						</div>
+					</div>
                 </div>
             </div>
-                <!-- END VALIDATION STATES-->
-            </div>
-            <!-- END PAGE CONTAINER-->
         </div>
         <!-- END PAGE -->
     </section>
@@ -68,15 +80,18 @@
 				<div class="modal-body">
 					<form class="form-horizontal" method="POST" action="<?=site_url('admin/users/updatePassword')?>">
 						<div class="form-group">
-							<input type="password" name="password" id="newpw" class="form-control" placeholder="mật khẩu mới" required="" /> <a href="#" id="showpw" class="btn btn-warning">Hiện mật khẩu <i class="fa fa-eye"></i></a> <a href="#" id="hidepw" style="display:none" class="btn btn-warning">Ẩn mật khẩu <i class="fa fa-eye"></i></a>
+							<div class="col-sm-12">
+								<input type="password" name="password" id="newpw" class="form-control" placeholder="mật khẩu mới" required="" /><br>
+								<a href="#" id="showpw" class="btn btn-fill btn-warning">Hiện mật khẩu <i class="fa fa-eye"></i></a> <a href="#" id="hidepw" style="display:none" class="btn btn-fill btn-warning">Ẩn mật khẩu <i class="fa fa-eye"></i></a>
+							</div>
 							<input type="hidden" name="id" value="<?=$user->id?>">
 							<input type="hidden" name="email" value="<?=$user->email?>">
 						</div>
 						<br>
 						<div class="form-group">
-							<div style="float: right">
-								<button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-								<button type="submit" class="btn btn-primary">Lưu lại</button>
+							<div class="col-sm-12 pull-right">
+								<button type="button" class="btn btn-default btn-fill" data-dismiss="modal">Đóng</button>
+								<button type="submit" class="btn btn-primary btn-fill">Lưu lại</button>
 							</div>
 						</div>
 					</form>
